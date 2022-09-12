@@ -1,0 +1,29 @@
+{
+  "name": "thamra",
+  "version": "1.0.0",
+  "description": "chat-app-application",
+  "main": "index.js",
+  "type": "module" ,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thamerh/real-time-chat-app-and-notification.git"
+  },
+  "keywords": [
+    "chat",
+    "notification",
+    "realtime-app",
+    "web-socket"
+  ],
+  "author": "thamer Hamdi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thamerh/real-time-chat-app-and-notification/issues"
+  },
+  "homepage": "https://github.com/thamerh/real-time-chat-app-and-notification#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
