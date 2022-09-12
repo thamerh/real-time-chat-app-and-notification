@@ -1,4 +1,11 @@
 import express from "express";
+import dotenv from "dotenv";
 
 const app=express();
-app.listen(5000,console.log("server started in port 5000"));
+dotenv.config();
+
+app.get("/",(req,res)=>{
+res.send("API IS RUNNING")
+});
+const port=process.env.PORT || 5000
+app.listen(port,console.log(`server started in port ${port}`));
