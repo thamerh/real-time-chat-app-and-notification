@@ -7,11 +7,12 @@ import router from "./routes/routes.js";
 const app=express();
 dotenv.config();
 DBconnect();
-app.get("/",(req,res)=>{
-res.send("API IS RUNNING")
-});
 app.use(express.json());
 app.use(router);
+app.use(express.urlencoded({ extended: true }));
+//static Images Folder
+app.use('/Images', express.static('./Images'));
+
 app.use(cors({ credentials:true, origin:process.env.URL}));
 const port=process.env.PORT || 5000
 app.listen(port,console.log(`server started in port ${port}`));
