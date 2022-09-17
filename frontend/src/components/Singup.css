@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Work+Sans:ital,wght@0,700;1,300;1,900&display=swap');
+
+.button{
+    border-radius: 55px;
+    width:250px;
+    margin-top: 20px;
+    background-color: rgb(52, 131, 250);
+    
+}
+.font{
+    font-family: 'Pacifico', cursive;
+    font-family: 'Work Sans', sans-serif;
+    text-align: center;
+    padding-top: 20px;
+}
