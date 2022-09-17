@@ -13,6 +13,6 @@ app.use(express.urlencoded({ extended: true }));
 //static Images Folder
 app.use('/Images', express.static('./Images'));
 
-app.use(cors({ credentials:true, origin:process.env.URL}));
+app.use(cors({ credentials:true, origin:'http://localhost:3000'}));
 const port=process.env.PORT || 5000
 app.listen(port,console.log(`server started in port ${port}`));
