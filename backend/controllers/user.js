@@ -1,74 +1,78 @@
-import generateToken from "./generateToken.js";
 import User from "../models/userModel.js";
 // image Upload
 import multer from 'multer';
 import path from "path" ;
+import bcrypt from 'bcryptjs';
+import jwt from "jsonwebtoken";
 
-//@description     Register new user
-//@route           POST /Register
-//@access          Public
-export const RegisterUser =  async (req, res) => {
+// //@description     Register new user
+// //@route           POST /Register
+// //@access          Public
+
+export const Register = async(req, res) => {
     const pic = req.file.path;
     const name= req.body.name;
     const email= req.body.email;
     const password= req.body.password;
-  
-    if (!name || !email || !password || !pic ) {
-      res.status(400);
-      throw new Error("Please Enter all the Feilds");
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(password, salt);
+    try {
+          if (!name || !email || !password || !pic ) {
+      res.json({msg: "Please Enter all the Feilds"});
     }
   
     const userExists = await User.findOne({ email });
   
     if (userExists) {
-      res.status(400);
-      throw new Error("user already exists");
+      res.json({msg: "user already exists"});
     }
     
-    const user = await User.create({
+   await User.create({
       name,
       email,
-      password,
+      password:hashPassword,
       pic,
     });
-  
-    if (user) {
-      res.status(201).json({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        pic: user.pic,
-        token: generateToken(user.id,user.name,user.email),
-      });
-    } else {
-      res.status(400);
-      throw new Error("user not found");
-    }
-  };
-//@description     Authentification user exist
-//@route           POST /Login
-//@access          Public
-export const LoginUser = async (req, res) => {
-    const { email, password } = req.body;
-  
-    const user = await User.findOne({ email });
-  
-    if (user && (await user.matchPassword(password))) {
+        res.json({msg: "Register secessuful"});
+    } catch (error) {
+        console.log(error);
+        return res.status(404).json({msg: error});
+
+    } 
+}
+
+// //@description     Authentification user exist
+// //@route           POST /Login
+// //@access          Public
+export const Login = async(req, res) => {
+  const { email, password } = req.body;
+    try {
+       
+        const user = await User.findOne({email:email});
+        const match = await bcrypt.compare(password,user.password);
+        console.log(match)
+  console.log(user)
+    if (user && match) {
+      const userId=user.id;
+      const token= jwt.sign({userId}, process.env.JWT_SECRET, {
+        expiresIn: "7d"},
+        )
+        console.log(token)
       res.json({
         id: user.id,
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
         pic: user.pic,
-        token: generateToken(user.id,user.name,user.email),
+        token: token
       });
     } else {
-      res.status(401);
-      throw new Error("Invalid Email or Password");
+      res.json('user not found');
     }
-  };
-  
+    } catch (error) {
+        res.status(404).json({msg:"Invalid Email or Password"});
+    }
+}  
 // Upload Image Controller
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
