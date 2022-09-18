@@ -98,3 +98,18 @@ export const upload = multer({
     }
 }).single('pic')
   
+//@description     Get or Search all users
+//@route           GET user?search=
+//@access          Public
+export const SearchUsers = async (req, res) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+  const users = await User.find(keyword).find({id: { $ne: req.user} });
+  res.send(users);
+};
