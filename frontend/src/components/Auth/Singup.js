@@ -1,20 +1,17 @@
 import React,{useState} from 'react';
 import {FormGroup,Label,Input,Form,Button,Container,Row,Col,Badge} from "reactstrap";
-import {useHistory} from "react-router-dom";
-import { Alert } from 'reactstrap';
+// import {useHistory} from "react-router-dom";
 import axios from "axios";
 import './Singup.css';
 
 function Singup() {
-    
-    const history = useHistory();
-    const [visible, setVisible] = useState(true);
-    const onDismiss = () => setVisible(false);
+
     const [name, setName] = useState();
     const [email, setEmail] = useState();
     const [confirmpassword, setConfirmPassword] = useState();
     const [password, setPassword] = useState();
     const [pic, setPic] = useState();
+    // const history = useHistory();
  
 
      
@@ -49,7 +46,8 @@ function Singup() {
     <Container 
      style={{
         maxWidth:"500px",
-      height:"625px"
+      height:"625px",
+      marginTop:"3.5%"
        }}>
    <Row>
      <Col  >
