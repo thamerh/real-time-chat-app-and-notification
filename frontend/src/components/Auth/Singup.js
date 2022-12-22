@@ -18,12 +18,10 @@ function Singup() {
       const submitHandler= async (e) => {
         e.preventDefault();
         try {
-          if (!name || !email || !password || !confirmpassword) {
+          if (!name || !email || !password || !confirmpassword  || !pic) {
            alert("Please Fill all the Feilds")
           }
-          if (!pic) {
-            alert("Uploading profile pictures is a must")
-           }
+          
           if (password !== confirmpassword) {
         alert(" Passwords Do Not Match , please confirm your password ")
   
