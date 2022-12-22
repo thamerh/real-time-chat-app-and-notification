@@ -15,12 +15,17 @@ function Login() {
           if ( !email || !password ) {
             alert( "Please Enter all the Feilds");
           }else{
-            const { data} = await axios.post("http://localhost:5000/Login", {
+            const { data} = await axios.post("http://localhost:5000/Login",{
               email: email,
               password: password
           });
         //localStorage.setItem("token",res.data);
-         localStorage.setItem("userInfo", JSON.stringify(data));
+        if(!data.token){
+           alert(data)
+        }else{
+          localStorage.setItem("userInfo", JSON.stringify(data));
+        }
+       
        console.log(JSON.stringify(data))
       window.location = "/";
           }
