@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import {FormGroup,Label,Input,Form,Button,Container,Row,Col,Badge} from "reactstrap";
 import "./Login.css";
-import axios, { Axios } from 'axios';
-import { useHistory} from 'react-router-dom';
+import axios from 'axios';
+import { useToast } from "@chakra-ui/react";
 
 function Login() {
 	const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const toast = useToast();
 
     const Auth = async (e) => {
         e.preventDefault();
         try {
           if ( !email || !password ) {
-            alert( "Please Enter all the Feilds");
+            toast({
+              title: "Please Fill all the Feilds",
+              status: "warning",
+              duration: 5000,
+              isClosable: true,
+              position: "bottom",
+            });
           }else{
             const { data} = await axios.post("http://localhost:5000/Login",{
               email: email,
@@ -21,13 +27,29 @@ function Login() {
           });
         //localStorage.setItem("token",res.data);
         if(!data.token){
-           alert(data)
+           toast({
+            title: "Error !",
+            description: data,
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+            position: "bottom",
+          });
         }else{
           localStorage.setItem("userInfo", JSON.stringify(data));
+          toast({
+            title: "Login Successful",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            position: "bottom",
+          });
+          setTimeout(window.location = "/",2000);
+          console.log(JSON.stringify(data))
+          
         }
        
-       console.log(JSON.stringify(data))
-      window.location = "/";
+      
           }
 	
         } catch (error) {
@@ -36,7 +58,14 @@ function Login() {
 				error.response.status >= 400 &&
 				error.response.status <= 500
 			)  {
-               alert(error.response.data.msg);
+        toast({
+          title: "Error Occured!",
+          description: error.response.data.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+        });
             }
         }
     }

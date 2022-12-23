@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import {FormGroup,Label,Input,Form,Button,Container,Row,Col,Badge} from "reactstrap";
-// import {useHistory} from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import './Singup.css';
 
@@ -11,7 +11,7 @@ function Singup() {
     const [confirmpassword, setConfirmPassword] = useState();
     const [password, setPassword] = useState();
     const [pic, setPic] = useState();
-    // const history = useHistory();
+    const toast = useToast();
  
 
      
@@ -19,11 +19,23 @@ function Singup() {
         e.preventDefault();
         try {
           if (!name || !email || !password || !confirmpassword  || !pic) {
-           alert("Please Fill all the Feilds")
+            toast({
+              title: "Please Fill all the Feilds",
+              status: "warning",
+              duration: 5000,
+              isClosable: true,
+              position: "bottom",
+            });
           }
           
           if (password !== confirmpassword) {
-        alert(" Passwords Do Not Match , please confirm your password ")
+        toast({
+          title: "Passwords Do Not Match , please confirm your password ",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+        });
   
           }else{
             console.log(name, email, password, pic);
@@ -35,11 +47,25 @@ function Singup() {
             formData.append('password', password)
 
             await axios.post('http://localhost:5000/Register', formData)
-            window.location = "/login";
+            toast({
+              title: "Registration Successful",
+              status: "success",
+              duration: 5000,
+              isClosable: true,
+              position: "bottom",
+            });
+            setTimeout(window.location = "/login",2000);
           }
         } catch (error) {
             if (error.response) {
-                alert(error.response.data.msg);
+              toast({
+                title: "Error Occured!",
+                description: error.response.data.message,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+              });
             }
         }
       }
