@@ -67,10 +67,10 @@ export const Login = async(req, res) => {
         token: token
       });
     } else {
-      res.json('user not found');
+      res.json(' Invalid Email or Password');
     }
     } catch (error) {
-        res.status(404).json({msg:"Invalid Email or Password"});
+        res.status(404).json({msg:error});
     }
 }  
 // Upload Image Controller
