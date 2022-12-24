@@ -59,7 +59,7 @@ function Login() {
 				error.response.status <= 500
 			)  {
         toast({
-          title: "Error Occured!",
+          title: "user not found!",
           description: error.response.data.message,
           status: "error",
           duration: 5000,
